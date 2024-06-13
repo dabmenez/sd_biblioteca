@@ -1,41 +1,27 @@
+# controllers/student_controller.py
 from flask import Blueprint, request, jsonify
-from models.student import Student
-from app import db
+from services.student_service import add_student, get_students, update_student, delete_student
 
-bp = Blueprint('students', __name__, url_prefix='/students')
+student_bp = Blueprint('student_bp', __name__, url_prefix='/students')
 
-@bp.route('/', methods=['POST'])
-def add_student():
+@student_bp.route('/', methods=['POST'])
+def add_student_view():
     data = request.get_json()
-    new_student = Student(
-        name=data['name'],
-        registration_number=data['registration_number'],
-        course=data['course'],
-        email=data['email']
-    )
-    db.session.add(new_student)
-    db.session.commit()
-    return jsonify({'message': 'Student added successfully'}), 201
+    new_student = add_student(data)
+    return jsonify({'message': 'Student added successfully', 'student': new_student.as_dict()}), 201
 
-@bp.route('/', methods=['GET'])
-def get_students():
-    students = Student.query.all()
+@student_bp.route('/', methods=['GET'])
+def get_students_view():
+    students = get_students()
     return jsonify([student.as_dict() for student in students])
 
-@bp.route('/<int:id>', methods=['PUT'])
-def update_student(id):
+@student_bp.route('/<int:id>', methods=['PUT'])
+def update_student_view(id):
     data = request.get_json()
-    student = Student.query.get_or_404(id)
-    student.name = data['name']
-    student.registration_number = data['registration_number']
-    student.course = data['course']
-    student.email = data['email']
-    db.session.commit()
-    return jsonify({'message': 'Student updated successfully'})
+    updated_student = update_student(id, data)
+    return jsonify({'message': 'Student updated successfully', 'student': updated_student.as_dict()})
 
-@bp.route('/<int:id>', methods=['DELETE'])
-def delete_student(id):
-    student = Student.query.get_or_404(id)
-    db.session.delete(student)
-    db.session.commit()
-    return jsonify({'message': 'Student deleted successfully'})
+@student_bp.route('/<int:id>', methods=['DELETE'])
+def delete_student_view(id):
+    deleted_student = delete_student(id)
+    return jsonify({'message': 'Student deleted successfully', 'student': deleted_student.as_dict()})

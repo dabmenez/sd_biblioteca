@@ -1,8 +1,9 @@
-from flask import Blueprint, request, jsonify
+# controllers/notification_controller.py
+from flask import Blueprint, jsonify
 
-bp = Blueprint('notifications', __name__, url_prefix='/notifications')
+notification_bp = Blueprint('notification_bp', __name__, url_prefix='/notifications')
 
-@bp.route('/', methods=['GET'])
+@notification_bp.route('/', methods=['GET'])
 def get_notifications():
     # Simulação de notificações
     notifications = [
