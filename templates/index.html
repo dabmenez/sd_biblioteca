@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Biblioteca Online</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo à Biblioteca Online</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('livros') }}">Gerenciar Livros</a></li>
+                <li><a href="{{ url_for('alunos') }}">Gerenciar Alunos</a></li>
+                <li><a href="{{ url_for('bibliotecarios') }}">Gerenciar Bibliotecários</a></li>
+                <li><a href="{{ url_for('emprestimos') }}">Gerenciar Empréstimos</a></li>
+                <li><a href="{{ url_for('lista_alunos') }}">Lista de Alunos</a></li>
+                <li><a href="{{ url_for('lista_emprestimos') }}">Lista de Empréstimos</a></li>
+                <li><a href="{{ url_for('solicitacoes') }}">Solicitações</a></li>
+                <li><a href="{{ url_for('biblioteca') }}">Biblioteca</a></li>
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>

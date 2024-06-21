@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Solicitações de Empréstimo</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Solicitações de Empréstimo</h1>
+        <ul>
+            {% for emprestimo in emprestimos %}
+            <li>{{ emprestimo.livro.titulo }} - {{ emprestimo.aluno.nome_completo }} 
+                <form action="{{ url_for('devolucao', id=emprestimo.id) }}" method="POST" style="display:inline;">
+                    <button type="submit">Registrar Devolução</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

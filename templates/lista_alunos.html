@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Lista de Alunos</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Alunos</h1>
+        <ul>
+            {% for aluno in alunos %}
+            <li>{{ aluno.nome_completo }} - Matrícula: {{ aluno.matricula }} - Empréstimos em andamento: {{ emprestimos_por_aluno[aluno.id] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
