@@ -6,7 +6,7 @@
     <h1>Lista de Empréstimos</h1>
     <ul>
         {% for emprestimo in emprestimos %}
-        <li>{{ emprestimo.livro.titulo }} - {{ emprestimo.aluno.nome_completo }} - Data de Entrega: {{ emprestimo.data_entrega }}</li>
+        <li>{{ emprestimo.livro.titulo }} - {{ emprestimo.aluno.nome_completo }} - Data de Devolução: {{ emprestimo.data_entrega.strftime('%d/%m/%Y às %H:%M') }}</li>
         {% endfor %}
     </ul>
 </div>
