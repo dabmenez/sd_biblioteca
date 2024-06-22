@@ -4,7 +4,7 @@ from models import Livro, Aluno, Bibliotecario, Emprestimo
 from datetime import datetime
 
 def index():
-    return render_template('index.html')
+    return render_template('index.html', active_page='index')
 
 def gerenciar_livros():
     if request.method == 'POST':
@@ -20,7 +20,7 @@ def gerenciar_livros():
         flash('Livro adicionado com sucesso!')
         return redirect(url_for('livros'))
     livros = Livro.query.all()
-    return render_template('livros.html', livros=livros)
+    return render_template('livros.html', livros=livros, active_page='livros')
 
 def gerenciar_alunos():
     if request.method == 'POST':
@@ -35,7 +35,7 @@ def gerenciar_alunos():
         flash('Aluno adicionado com sucesso!')
         return redirect(url_for('alunos'))
     alunos = Aluno.query.all()
-    return render_template('alunos.html', alunos=alunos)
+    return render_template('alunos.html', alunos=alunos, active_page='alunos')
 
 def gerenciar_bibliotecarios():
     if request.method == 'POST':
@@ -48,7 +48,7 @@ def gerenciar_bibliotecarios():
         flash('Bibliotecário adicionado com sucesso!')
         return redirect(url_for('bibliotecarios'))
     bibliotecarios = Bibliotecario.query.all()
-    return render_template('bibliotecarios.html', bibliotecarios=bibliotecarios)
+    return render_template('bibliotecarios.html', bibliotecarios=bibliotecarios, active_page='bibliotecarios')
 
 def gerenciar_emprestimos():
     if request.method == 'POST':
@@ -63,20 +63,20 @@ def gerenciar_emprestimos():
     livros = Livro.query.all()
     alunos = Aluno.query.all()
     emprestimos = Emprestimo.query.all()
-    return render_template('emprestimos.html', livros=livros, alunos=alunos, emprestimos=emprestimos)
+    return render_template('emprestimos.html', livros=livros, alunos=alunos, emprestimos=emprestimos, active_page='emprestimos')
 
 def listar_alunos():
     alunos = Aluno.query.all()
     emprestimos_por_aluno = {aluno.id: Emprestimo.query.filter_by(aluno_id=aluno.id, data_entrega=None).count() for aluno in alunos}
-    return render_template('lista_alunos.html', alunos=alunos, emprestimos_por_aluno=emprestimos_por_aluno)
+    return render_template('lista_alunos.html', alunos=alunos, emprestimos_por_aluno=emprestimos_por_aluno, active_page='lista_alunos')
 
 def listar_emprestimos():
     emprestimos = Emprestimo.query.all()
-    return render_template('lista_emprestimos.html', emprestimos=emprestimos)
+    return render_template('lista_emprestimos.html', emprestimos=emprestimos, active_page='lista_emprestimos')
 
 def solicitacoes():
     emprestimos_pendentes = Emprestimo.query.filter_by(data_entrega=None).all()
-    return render_template('solicitacoes.html', emprestimos=emprestimos_pendentes)
+    return render_template('solicitacoes.html', emprestimos=emprestimos_pendentes, active_page='solicitacoes')
 
 def realizar_devolucao(id):
     emprestimo = Emprestimo.query.get(id)
@@ -87,7 +87,7 @@ def realizar_devolucao(id):
 
 def biblioteca():
     livros = Livro.query.all()
-    return render_template('biblioteca.html', livros=livros)
+    return render_template('biblioteca.html', livros=livros, active_page='biblioteca')
 
 def detalhes_livro(id):
     livro = Livro.query.get(id)
@@ -99,8 +99,8 @@ def detalhes_livro(id):
         db.session.commit()
         flash('Empréstimo solicitado com sucesso!')
         return redirect(url_for('livro', id=id))
-    return render_template('livro.html', livro=livro)
+    return render_template('livro.html', livro=livro, active_page='livro')
 
 def meus_emprestimos(aluno_id):
     emprestimos = Emprestimo.query.filter_by(aluno_id=aluno_id).all()
-    return render_template('meus_emprestimos.html', emprestimos=emprestimos)
+    return render_template('meus_emprestimos.html', emprestimos=emprestimos, active_page='meus_emprestimos')

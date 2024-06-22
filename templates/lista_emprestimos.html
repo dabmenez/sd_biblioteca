@@ -1,19 +1,15 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Lista de Empréstimos</title>
-</head>
-<body>
-    <div class="container">
-        <h1>Lista de Empréstimos</h1>
-        <ul>
-            {% for emprestimo in emprestimos %}
-            <li>{{ emprestimo.livro.titulo }} - {{ emprestimo.aluno.nome_completo }} - Data de Entrega: {{ emprestimo.data_entrega }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-</body>
-</html>
+{% extends "index.html" %}
+
+{% block title %}Lista de Empréstimos{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Lista de Empréstimos</h1>
+    <ul>
+        {% for emprestimo in emprestimos %}
+        <li>{{ emprestimo.livro.titulo }} - {{ emprestimo.aluno.nome_completo }} - Data de Entrega: {{ emprestimo.data_entrega }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+
