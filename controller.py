@@ -2,10 +2,33 @@ from flask import render_template, request, redirect, url_for, flash
 from app import db
 from models import Livro, Aluno, Bibliotecario, Emprestimo
 from datetime import datetime
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
+def handle_request_with_error_handling(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except KeyError as ke:
+            error_message = f"Erro: O campo '{ke.args[0]}' é obrigatório."
+            return render_template('error.html', error=error_message)
+        except IntegrityError as ie:
+            db.session.rollback()
+            error_message = "Erro: Violação de integridade do banco de dados. Verifique se a matrícula ou o e-mail já estão cadastrados."
+            return render_template('error.html', error=error_message)
+        except SQLAlchemyError as sae:
+            db.session.rollback()
+            error_message = "Erro: Problema ao acessar o banco de dados. Por favor, tente novamente mais tarde."
+            return render_template('error.html', error=error_message)
+        except Exception as e:
+            error_message = f"Erro inesperado: {str(e)}"
+            return render_template('error.html', error=error_message)
+    return wrapper
+
+@handle_request_with_error_handling
 def index():
     return render_template('index.html', active_page='index')
 
+@handle_request_with_error_handling
 def gerenciar_livros():
     if request.method == 'POST':
         titulo = request.form['titulo']
@@ -22,6 +45,7 @@ def gerenciar_livros():
     livros = Livro.query.all()
     return render_template('livros.html', livros=livros, active_page='livros')
 
+@handle_request_with_error_handling
 def gerenciar_alunos():
     if request.method == 'POST':
         nome_completo = request.form['nome_completo']
@@ -37,6 +61,7 @@ def gerenciar_alunos():
     alunos = Aluno.query.all()
     return render_template('alunos.html', alunos=alunos, active_page='alunos')
 
+@handle_request_with_error_handling
 def gerenciar_bibliotecarios():
     if request.method == 'POST':
         nome_completo = request.form['nome_completo']
@@ -50,6 +75,7 @@ def gerenciar_bibliotecarios():
     bibliotecarios = Bibliotecario.query.all()
     return render_template('bibliotecarios.html', bibliotecarios=bibliotecarios, active_page='bibliotecarios')
 
+@handle_request_with_error_handling
 def gerenciar_emprestimos():
     if request.method == 'POST':
         livro_id = request.form['livro_id']
@@ -65,19 +91,23 @@ def gerenciar_emprestimos():
     emprestimos = Emprestimo.query.all()
     return render_template('emprestimos.html', livros=livros, alunos=alunos, emprestimos=emprestimos, active_page='emprestimos')
 
+@handle_request_with_error_handling
 def listar_alunos():
     alunos = Aluno.query.all()
     emprestimos_por_aluno = {aluno.id: Emprestimo.query.filter_by(aluno_id=aluno.id, data_entrega=None).count() for aluno in alunos}
     return render_template('lista_alunos.html', alunos=alunos, emprestimos_por_aluno=emprestimos_por_aluno, active_page='lista_alunos')
 
+@handle_request_with_error_handling
 def listar_emprestimos():
     emprestimos = Emprestimo.query.all()
     return render_template('lista_emprestimos.html', emprestimos=emprestimos, active_page='lista_emprestimos')
 
+@handle_request_with_error_handling
 def solicitacoes():
     emprestimos_pendentes = Emprestimo.query.filter_by(data_entrega=None).all()
     return render_template('solicitacoes.html', emprestimos=emprestimos_pendentes, active_page='solicitacoes')
 
+@handle_request_with_error_handling
 def realizar_devolucao(id):
     emprestimo = Emprestimo.query.get(id)
     emprestimo.data_entrega = datetime.now()
@@ -85,10 +115,12 @@ def realizar_devolucao(id):
     flash('Devolução registrada com sucesso!')
     return redirect(url_for('emprestimos'))
 
+@handle_request_with_error_handling
 def biblioteca():
     livros = Livro.query.all()
     return render_template('biblioteca.html', livros=livros, active_page='biblioteca')
 
+@handle_request_with_error_handling
 def detalhes_livro(id):
     livro = Livro.query.get(id)
     if request.method == 'POST':
@@ -101,6 +133,10 @@ def detalhes_livro(id):
         return redirect(url_for('livro', id=id))
     return render_template('livro.html', livro=livro, active_page='livro')
 
+@handle_request_with_error_handling
 def meus_emprestimos(aluno_id):
     emprestimos = Emprestimo.query.filter_by(aluno_id=aluno_id).all()
     return render_template('meus_emprestimos.html', emprestimos=emprestimos, active_page='meus_emprestimos')
+
+def error(error):
+    return render_template('error.html', error=error)

@@ -49,3 +49,7 @@ def livro(id):
 @app.route('/meus_emprestimos/<int:aluno_id>')
 def meus_emprestimos(aluno_id):
     return controller.meus_emprestimos(aluno_id)
+
+@app.route('/error')
+def error(error):
+    return controller.error(error)
