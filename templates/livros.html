@@ -11,7 +11,7 @@
             <form action="{{ url_for('livros') }}" method="POST">
                 <div class="mb-3">
                     <label for="title" class="form-label">Título:</label>
-                    <input type="text" class="form-control" id="title" aria-describedby="emailHelp">
+                    <input type="text" class="form-control" id="title" name="titulo" required>
                   </div>
                 <div class="mb-3">
                     <label for="autor" class="form-label">Autor:</label>
