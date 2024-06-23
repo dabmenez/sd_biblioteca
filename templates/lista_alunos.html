@@ -3,10 +3,10 @@
 {% block title %}Lista de Alunos{% endblock %}
 {% block content %}
 <div class="container">
-    <h1>Lista de Alunos</h1>
-    <ul>
+    <p class="h1 text-center">Lista de Alunos</p>
+    <ul class="list-group">
         {% for aluno in alunos %}
-        <li>{{ aluno.nome_completo }} - Matrícula: {{ aluno.matricula }} - Empréstimos em andamento: {{ emprestimos_por_aluno[aluno.id] }}</li>
+        <li class="list-group-item">{{ aluno.nome_completo }} - Matrícula: {{ aluno.matricula }} - Empréstimos em andamento: {{ emprestimos_por_aluno[aluno.id] }}</li>
         {% endfor %}
     </ul>
 </div>

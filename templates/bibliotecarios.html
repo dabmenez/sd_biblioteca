@@ -3,26 +3,41 @@
 {% block title %}Gerenciar Bibliotecários{% endblock %}
 {% block content %}
 <div class="container">
-        <h1>Gerenciar Bibliotecários</h1>
-        <form action="{{ url_for('bibliotecarios') }}" method="POST">
-            <div>
-                <label for="nome_completo">Nome Completo:</label>
-                <input type="text" id="nome_completo" name="nome_completo" required>
+        <p class="h1 text-center">Gerenciar Bibliotecários</p>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="h3 text-center">Adicionar bibliotecários</p>
+                <form action="{{ url_for('bibliotecarios') }}" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="nome_completo">Nome Completo:</label>
+                <input class="form-control" type="text" id="nome_completo" name="nome_completo" required>
             </div>
-            <div>
-                <label for="apelido">Apelido:</label>
-                <input type="text" id="apelido" name="apelido" required>
+            <div class="mb-3">
+                <label class="form-label" for="apelido">Apelido:</label>
+                <input class="form-control" type="text" id="apelido" name="apelido" required>
             </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+            <div class="mb-3">
+                <label  class="form-label" for="email">Email:</label>
+                <input class="form-control" type="email" id="email" name="email" required>
             </div>
-            <button type="submit">Adicionar Bibliotecário</button>
+                    <div class="d-grid">
+                        <button class="btn btn-primary mx-auto mt-3" type="submit">Adicionar Bibliotecário</button>
+                    </div>
+
         </form>
-        <ul>
+            </div>
+            <div class="col">
+            <p class="h3 text-center">Lista de bibliotecários</p>
+                <ul class="list-group">
             {% for bibliotecario in bibliotecarios %}
-            <li>{{ bibliotecario.nome_completo }} - {{ bibliotecario.email }}</li>
+            <li class="list-group-item">{{ bibliotecario.nome_completo }} - {{ bibliotecario.email }}</li>
             {% endfor %}
         </ul>
+            </div>
+        </div>
+    </div>
+
+
     </div>
 {% endblock %}

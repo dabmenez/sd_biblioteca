@@ -3,10 +3,10 @@
 {% block title %}Lista de Empréstimos{% endblock %}
 {% block content %}
 <div class="container">
-    <h1>Lista de Empréstimos</h1>
-    <ul>
+    <p class="h1 text-center">Lista de Empréstimos</p>
+    <ul class="list-group">
         {% for emprestimo in emprestimos %}
-        <li>
+        <li class="list-group-item">
             {{ emprestimo.livro.titulo }} - {{ emprestimo.aluno.nome_completo }} -
             Data de Devolução:
             {% if emprestimo.data_entrega %}

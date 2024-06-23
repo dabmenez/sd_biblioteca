@@ -3,10 +3,10 @@
 {% block title %}Biblioteca{% endblock %}
 {% block content %}
 <div class="container">
-    <h1>Biblioteca</h1>
-    <ul>
+    <p class="h1 text-center">Biblioteca</p>
+    <ul class="list-group">
         {% for livro in livros %}
-        <li>{{ livro.titulo }} - {{ livro.autor }}</li>
+        <li class="list-group-item">{{ livro.titulo }} - {{ livro.autor }}</li>
         {% endfor %}
     </ul>
 </div>
