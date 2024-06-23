@@ -1,19 +1,13 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Biblioteca</title>
-</head>
-<body>
-    <div class="container">
-        <h1>Biblioteca</h1>
-        <ul>
-            {% for livro in livros %}
-            <li>{{ livro.titulo }} - {{ livro.autor }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-</body>
-</html>
+{% extends "index.html" %}
+
+{% block title %}Biblioteca{% endblock %}
+{% block content %}
+<div class="container">
+    <p class="h1 text-center">Biblioteca</p>
+    <ul class="list-group">
+        {% for livro in livros %}
+        <li class="list-group-item">{{ livro.titulo }} - {{ livro.autor }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
